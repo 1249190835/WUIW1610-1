@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<form action="" method="get">
+    <input type="search" name="s" placeholder="请输入">
+    <input type="button" value="搜索">
+    <ul class="list"></ul>
+</form>
+<script>
+    var search=document.querySelector('input[type=search]');
+    var button=document.querySelector('input[type="button]');
+    var list=document.querySelector('.list');
+    search.onblur=function(){
+        var v=search.value;
+        if(v.length == 0){
+            alert("请输入内容");
+            return;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET","/search?s="+v);
+        xhr.send();
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){
+                if(xhr.status==200){
+                    var data=JSON.parse(xhr.response);
+                    var str="";
+                    data.forEach(v=>{str+=`<li>${v}</li>`});
+                    list.innerHTML=str;
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>
