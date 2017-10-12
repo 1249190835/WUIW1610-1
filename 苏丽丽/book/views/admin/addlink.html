@@ -1,0 +1,227 @@
+<% include header.html %>
+<form method="post" action="index.php?m=admin&c=index&a=linklist" id="listform">
+  <!--<?php var_dump($all)?>-->
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href="" style="float:right; display:none;">添加字段</a></div>
+    <div class="padding border-bottom">
+      <ul class="search" style="padding-left:10px;">
+        <li> <a class="button border-main icon-plus-square-o" href="index.php?m=admin&c=index&a=addlink"> 添加内容</a> </li>
+
+        <li>
+          <input type="text" placeholder="请输入搜索关键字" value="" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
+          <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a></li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center">
+      <tr>
+        <th width="100" style="text-align:left; padding-left:20px;">ID</th>
+        <th>名称</th>
+        <th>地址</th>
+      </tr>
+      <volist name="list" id="vo">
+        <?php foreach($lists as $v){?>
+        <tr>
+          <td style="text-align:left; padding-left:20px;"><?php echo $v['lid'] ?>
+           </td>
+
+          <td><?php echo $v['linktitle'] ?></td>
+          <td><font color="#00CC99"><?php echo $v['url'] ?></font></td>
+          <td><div class="button-group"> <a class="button border-main" href="index.php?m=admin&c=index&a=editaddlink&lid=<?php echo $v['lid']?>"><span class="icon-edit"></span> 修改</a> <a class="button border-red" href="javascript:void(0)" onclick="return del(<?php echo $v['lid']?>)"><span class="icon-trash-o"></span> 删除</a> </div></td>
+
+        </tr>
+        <?php }?>
+
+        <tr>
+          <td colspan="8">
+            <div class="pagelist">
+              <a href="index.php?m=admin&c=index&a=linklist&page=<?php echo $page-1<=0?1:$page-1;?>">上一页</a>
+
+              <?php for($i=1;$i<=$pages;$i++){?>
+              <?php if($page==$i){ ?>
+              <span class="current"><?php echo $i?></span>
+              <?php } else{ ?>
+              <a  href="index.php?m=admin&c=index&a=linklist&page=<?php echo $i?>"><?php echo $i?></a>
+              <?php }?>
+              <?php }?>
+              <a href="index.php?m=admin&c=index&a=linklist&page=<?php echo $page+1>=$pages?$pages:$page+1;?>">下一页</a>
+              <a href="index.php?m=admin&c=index&a=linklist&page=<?php echo $pages;?>">尾页</a>
+            </div>
+          </td>
+        </tr>
+    </table>
+  </div>
+</form>
+<script type="text/javascript">
+
+//搜索
+function changesearch(){	
+		
+}
+
+//单个删除
+function del(id){
+	if(confirm("您确定要删除吗?")){
+        location.href = "index.php?m=admin&c=index&a=dellink&lid="+id;
+	}
+}
+
+//全选
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+//批量删除
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false;		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+//批量排序
+function sorts(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		return false;
+	}
+}
+
+
+//批量首页显示
+function changeishome(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+//批量推荐
+function changeisvouch(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");	
+		
+		return false;
+	}
+}
+
+//批量置顶
+function changeistop(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();	
+	}
+	else{
+		alert("请选择要操作的内容!");		
+	
+		return false;
+	}
+}
+
+
+//批量移动
+function changecate(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){		
+		
+		$("#listform").submit();		
+	}
+	else{
+		alert("请选择要操作的内容!");
+		
+		return false;
+	}
+}
+
+//批量复制
+function changecopy(o){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {		
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){	
+		var i = 0;
+	    $("input[name='id[]']").each(function(){
+	  		if (this.checked==true) {
+				i++;
+			}		
+	    });
+		if(i>1){ 
+	    	alert("只能选择一条信息!");
+			$(o).find("option:first").prop("selected","selected");
+		}else{
+		
+			$("#listform").submit();		
+		}	
+	}
+	else{
+		alert("请选择要复制的内容!");
+		$(o).find("option:first").prop("selected","selected");
+		return false;
+	}
+}
+
+</script>
+<script src="<?php echo JS_PATH?>/admin/pintuer.js"></script>
